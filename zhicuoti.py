@@ -3,6 +3,11 @@
 应用主程序
 """
 
+from dotenv import load_dotenv
+
+# DotEnv
+load_dotenv('.env')
+
 import os
 import sys
 
