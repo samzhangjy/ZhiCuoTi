@@ -1,0 +1,52 @@
+{# 查看班级页面 #}
+{% extends 'base.html' %}
+
+{% block title %}{{ class_.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>
+        班级“{{ class_.name }}”
+        {% if current_user.is_teacher() %}
+        <a href="{{ url_for('main.manage_class', name=class_.name) }}" style="font-size: 16px;"><span class="fa fa-sliders"></span> 管理班级</a>
+        <a href="{{ url_for('main.code_class', name=class_.name) }}" style="font-size: 16px;"><span class="fa fa-eye"></span> 查看班级码</a>
+        {% endif %}
+    </h1>
+    <hr>
+    <p class="text-muted">本班共有{{ class_.users.all() | length }}人，其中有{{ teachers | length }}名老师和{{ students | length }}名同学。</p>
+    {% if current_user.is_teacher() %}
+    <p>目前有{{ problems }}道{{ current_user.subject.name }}错题</p>
+    <div id="main" style="width: 80vw;height:50vh;" class="text-center"></div>
+    <small class="text-muted">注：若一道题有多个标签，在图表中将算为不同的题进行计算</small>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var myChart = echarts.init(document.getElementById('main'), 'shine');
+    myChart.setOption({
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        series : [
+            {
+                name: '知识点',
+                type: 'pie',
+                data:[
+                {% for tag in tags %}
+                {{ '{value: ' }}{{ tags[tag] }}, name: '{{ tag }}'{{ '}' }},
+                {% endfor %}
+                ],
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
+                animationDelay: function (idx) {
+                    return Math.random() * 200;
+                }
+            }
+        ]
+    })
+    myChart.setOption(option);
+</script>
+{% endblock %}

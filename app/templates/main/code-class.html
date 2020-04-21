@@ -1,0 +1,37 @@
+{# 查看班级码页面 #}
+{% extends 'base.html' %}
+
+{% block title %}查看班级码{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>查看班级码</h1>
+    <hr>
+    <p>班级“{{ class_.name }}”的班级码为：{{ class_.join_code }}</p>
+    <p>将班级码复制给要加入的学生，告诉他们按以下步骤操作：</p>
+    <br>
+    <div class="row">
+        <div class="col col-4">
+            <h5>1. 注册账号</h5>
+            <p class="text-muted">
+                进入<a href="{{ url_for('main.index') }}">智错题首页</a>，点击<code>注册</code>，
+                然后让学生按照真实情况填写注册表单
+            </p>
+        </div>
+        <div class="col col-4">
+            <h5>2. 加入班级</h5>
+            <p class="text-muted">
+                在学生注册完账号之后，进入智错题首页，点击学生的姓名 -> 加入班级，将跳转到加入班级页面
+            </p>
+        </div>
+        <div class="col col-4">
+            <h5>3. 输入班级码</h5>
+            <p class="text-muted">
+                在加入班级页面中，先输入班级名称，接着再输入输入本页最上方的班级码，点击<code>加入班级</code>
+            </p>
+        </div>
+    </div>
+    <br>
+    <p>若要让老师加入班级，操作方法类似，也需要班级码作为验证</p>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{# 查看错题页面 #}
+{% extends 'base.html' %}
+
+{% block title %}查看错题{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>
+        查看错题&nbsp;&nbsp;&nbsp;<small style="font-size: 16px;"><span class="fa fa-book"></span> {{ problem.subject.name }}&nbsp;&nbsp;&nbsp;<span class="fa fa-calendar"></span> {{ moment(problem.timestamp).format('LL') }}</small>
+        &nbsp;<small style="font-size: 16px;">
+            <a href="{{ url_for('main.view_student_problems', name=class_.name, id=user.id) }}">
+                &laquo; 返回{{ user.name }}的错题
+            </a>
+        </small>
+    </h1>
+    <hr>
+    {% include '_teacher-problem.html' %}
+</div>
+{% endblock %}

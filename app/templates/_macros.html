@@ -1,0 +1,50 @@
+{% macro generateTextImageForm(name, text) %}
+<div class="form-group">
+    <label for="{{ name }}">{{ text }}</label>
+    <ul class="nav nav-pills" id="{{ name }}-tabs" role="tablist">
+        <li class="nav-item mb-3">
+            <a class="nav-link active" id="{{ name }}-text-tab" data-toggle="tab" href="#{{ name }}-text" role="tab"
+                aria-controls="{{ name }}-text" aria-selected="true">文字</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="{{ name }}-image-tab" data-toggle="tab" href="#{{ name }}-image" role="tab"
+                aria-controls="{{ name }}-image" aria-selected="false">图片</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="{{ name }}-text" role="tabpanel" aria-labelledby="{{ name }}-text-tab">
+            <textarea class="form-control" name="{{ name }}-text" id="{{ name }}" rows="3" autocomplete="off"
+                required></textarea>
+            <div class="invalid-feedback">
+                请输入{{ text }}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="{{ name }}-image" role="tabpanel" aria-labelledby="{{ name }}-image-tab">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="{{ name }}" name="{{ name }}-image" accept="image/*" multiple>
+                <label class="custom-file-label" for="{{ name }}" data-browse="选择图片">请选择图片</label>
+                <div class="invalid-feedback">
+                    请上传{{ text }}
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="{{ name }}-is-image" name="{{ name }}-is-image" value="False">
+    </div>
+</div>
+
+<script>
+    // 当{{ text }}的输入方式更改时的操作
+    // 文字方式显示时
+    $('#{{ name }}-text-tab').on('shown.bs.tab', function (e) {
+        $('textarea[name=\'{{ name }}-text\']').attr('required', 'required');
+        $('input[name=\'{{ name }}-image\']').removeAttr('required');
+        $('#{{ name }}-is-image').val('False');
+    })
+    // 图片方式显示时
+    $('#{{ name }}-image-tab').on('shown.bs.tab', function (e) {
+        $('input[name=\'{{ name }}-image\']').attr('required', 'required');
+        $('textarea[name=\'{{ name }}-text\']').removeAttr('required');
+        $('#{{ name }}-is-image').val('True');
+    })
+</script>
+{% endmacro %}

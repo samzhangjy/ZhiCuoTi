@@ -1,0 +1,84 @@
+<h5>操作</h5>
+<button class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirm">删除</button>
+<div class="modal fade" id="deleteConfirm" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmLabel">确认删除</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                你确认删除这道错题吗？删除后与错题相关的所有图片及文字将被删除。
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <a href="{{ url_for('main.delete_problem', id=problem.id) }}" class="btn btn-danger">删除</a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<strong>{{ problem.title }}</strong>
+<hr>
+<p>
+    题目：
+    <br>
+    {% if not problem.body_is_image %}
+    {{ problem.body | safe }}
+    {% else %}
+    {% for img in problem.body.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<p>
+    原始答案：
+    <br>
+    {% if not problem.original_answer_is_image %}
+    {{ problem.original_answer | safe }}
+    {% else %}
+    {% for img in problem.original_answer.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<p>
+    正确答案：
+    <br>
+    {% if not problem.correct_answer_is_image %}
+    {{ problem.correct_answer | safe }}
+    {% else %}
+    {% for img in problem.correct_answer.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<p>
+    解析：
+    <br>
+    {% if not problem.description_is_image %}
+    {{ problem.description | safe }}
+    {% else %}
+    {% for img in problem.description.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<span class="fa fa-tags">
+    知识点：
+    {% for tag in problem.tags %}
+    <a href="{{ url_for('main.tag', id=tag.id) }}">{{ tag.name }}</a>
+    {% if not loop.index == problem.tags | length %}，{% endif %}
+    {% endfor %}
+</span>

@@ -1,0 +1,47 @@
+{# 统计指定学生错题的页面 #}
+{% extends 'base.html' %}
+
+{% block title %}错题统计{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ user.name }}的错题统计</h1>
+    <hr>
+    {% if tags == [] %}
+    <p>{{ user.name }}还没有添加任何错题</p>
+    {% else %}
+    <p>目前有{{ problems | length }}道{{ current_user.subject.name }}错题</p>
+    <div id="main" style="width: 80vw;height:50vh;" class="text-center"></div>
+    <small class="text-muted">注：若一道题有多个标签，在图表中将算为不同的题进行计算</small>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var myChart = echarts.init(document.getElementById('main'), 'shine');
+    myChart.setOption({
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        series : [
+            {
+                name: '知识点',
+                type: 'pie',
+                data:[
+                {% for tag in tags %}
+                {{ '{value: ' }}{{ tag.problems.all() | length }}, name: '{{ tag.name }}（{{ tag.subject.name }}）'{{ '}' }},
+                {% endfor %}
+                ],
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
+                animationDelay: function (idx) {
+                    return Math.random() * 200;
+                }
+            }
+        ]
+    })
+    myChart.setOption(option);
+</script>
+{% endblock %}

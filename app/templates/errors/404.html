@@ -1,0 +1,12 @@
+{# 网站404错误页面 #}
+{% extends 'base.html' %}
+
+{% block title %}404{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center display-1">404</h1>
+    <hr>
+    <p class="lead text-center">你所访问的页面走丢了！<a href="{{ url_for('main.index') }}">回到首页</a></p>
+</div>
+{% endblock %}

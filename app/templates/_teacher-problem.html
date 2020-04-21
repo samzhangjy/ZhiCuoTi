@@ -1,0 +1,61 @@
+<strong>{{ problem.title }}</strong>
+<hr>
+<p>
+    题目：
+    <br>
+    {% if not problem.body_is_image %}
+    {{ problem.body | safe }}
+    {% else %}
+    {% for img in problem.body.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<p>
+    原始答案：
+    <br>
+    {% if not problem.original_answer_is_image %}
+    {{ problem.original_answer | safe }}
+    {% else %}
+    {% for img in problem.original_answer.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<p>
+    正确答案：
+    <br>
+    {% if not problem.correct_answer_is_image %}
+    {{ problem.correct_answer | safe }}
+    {% else %}
+    {% for img in problem.correct_answer.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<p>
+    解析：
+    <br>
+    {% if not problem.description_is_image %}
+    {{ problem.description | safe }}
+    {% else %}
+    {% for img in problem.description.split(',') %}
+    {% if img != '' %}
+    <img src="{{ url_for('static', filename='uploads/' + img) }}" class="img-fluid" alt="[无法获取图片{{ img }}]">
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</p>
+<span class="fa fa-tags">
+    知识点：
+    {% for tag in problem.tags %}
+    <a href="{{ url_for('main.view_student_tag', name=class_.name, id=user.id, tag=tag.id) }}">{{ tag.name }}</a>
+    {% if not loop.index == problem.tags | length %}，{% endif %}
+    {% endfor %}
+</span>

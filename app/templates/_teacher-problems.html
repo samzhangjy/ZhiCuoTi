@@ -1,0 +1,64 @@
+{% for problem in problems %}
+<div class="container position-relative">
+    <strong>
+        {{ loop.index }}.
+        <a href="{{ url_for('main.view_student_problem', name=class_.name, id=user.id, problem=problem.id) }}"
+            class="stretched-link">
+            {{ problem.title | truncate(30) }}
+        </a>
+    </strong>
+    &nbsp;&nbsp;&nbsp;<span class="fa fa-book"></span> {{ problem.subject.name }}
+    &nbsp;&nbsp;&nbsp;<span class="fa fa-calendar"></span> {{ moment(problem.timestamp).format('LL') }}
+    <hr>
+    <p>
+        题目：
+        {% if not problem.body_is_image %}
+        {{ problem.body | striptags | truncate(30) }}
+        {% else %}
+        {% for img in problem.body.split(',') %}
+        {% if img != '' %}[图片]{% endif %}
+        {% endfor %}
+        {% endif %}
+    </p>
+    <p>
+        原始答案：
+        {% if not problem.original_answer_is_image %}
+        {{ problem.original_answer | striptags | truncate(30) }}
+        {% else %}
+        {% for img in problem.original_answer.split(',') %}
+        {% if img != '' %}[图片]{% endif %}
+        {% endfor %}
+        {% endif %}
+    </p>
+    <p>
+        正确答案：
+        {% if not problem.correct_answer_is_image %}
+        {{ problem.correct_answer | striptags | truncate(30) }}
+        {% else %}
+        {% for img in problem.correct_answer.split(',') %}
+        {% if img != '' %}[图片]{% endif %}
+        {% endfor %}
+        {% endif %}
+    </p>
+    <p>
+        解析：
+        {% if not problem.description_is_image %}
+        {{ problem.description | striptags | truncate(30) }}
+        {% else %}
+        {% for img in problem.description.split(',') %}
+        {% if img != '' %}[图片]{% endif %}
+        {% endfor %}
+        {% endif %}
+    </p>
+</div>
+<div class="container">
+    <span class="fa fa-tags">
+        标签：
+        {% for tag in problem.tags %}
+        <a href="{{ url_for('main.view_student_tag', name=class_.name, id=user.id, tag=tag.id) }}">{{ tag.name }}</a>
+        {% if not loop.index == problem.tags | length %}，{% endif %}
+        {% endfor %}
+    </span>
+</div>
+<hr>
+{% endfor %}

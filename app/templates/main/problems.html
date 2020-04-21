@@ -1,0 +1,12 @@
+{# 查看所有错题页面 #}
+{% extends 'base.html' %}
+
+{% block title %}我的错题{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>我的错题 <a style="font-size: 16px;" href="{{ url_for('main.add_problem') }}">添加错题 <span class="fa fa-plus"></span></a></h1>
+    <hr>
+    {% include '_problems.html' %}
+</div>
+{% endblock %}

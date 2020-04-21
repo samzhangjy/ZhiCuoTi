@@ -1,0 +1,67 @@
+{# 管理班级页面 #}
+{% extends 'base.html' %}
+
+{% block title %}管理班级{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>管理班级“{{ class_.name }}” <a href="{{ url_for('main.view_class', name=class_.name) }}" style="font-size: 16px;">&laquo; 返回班级</a>&nbsp;&nbsp;<a style="font-size: 16px;" href="{{ url_for('main.change_class_name', name=class_.name) }}"><span class="fa fa-gear"></span> 更改班级名称</a></h1>
+    <hr>
+    <p class="text-muted">
+        本班共有{{ class_.users.all() | length }}人，其中有{{ teachers | length }}名老师和{{ students | length }}名同学。
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">姓名</th>
+                <th scope="col">类别</th>
+                <th scope="col">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in class_.users.all() %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ user.name }}</td>
+                <td>{% if user.usertype.name == 'teacher' %}老师{% else %}学生{% endif %}</td>
+                <td>
+                    {% if not user.is_teacher() %}
+                    <a class="btn btn-primary" href="{{ url_for('main.view_student_problems', name=class_.name, id=user.id) }}">
+                        查看{{ current_user.subject.name }}错题
+                    </a>
+                    <a class="btn btn-success" href="{{ url_for('main.view_student_statistics', name=class_.name, id=user.id) }}">
+                        查看错题统计
+                    </a>
+                    {% endif %}
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target="#confirm{{ user.id }}">
+                        移除
+                    </button>
+                </td>
+                <div class="modal fade" id="confirm{{ user.id }}" data-backdrop="static" tabindex="-1" role="dialog"
+                    aria-labelledby="confirmLabel{{ id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmLabel{{ id }}">确认移除</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                你确认移除成员{{ user.name }}吗？移除后用户仍可以通过加入班级再次加入。
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <a class="btn btn-danger" href="{{ url_for('main.remove_user_from_class', name=class_.name, id=user.id) }}">移除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

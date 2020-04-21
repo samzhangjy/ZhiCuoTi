@@ -1,0 +1,12 @@
+{# 查看班级内指定学生的指定标签 #}
+{% extends 'base.html' %}
+
+{% block title %}{{ user.name }}的标签{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ user.name }}的知识点“{{ tag.name }}”</h1>
+    <hr>
+    {% include '_teacher-problems.html' %}
+</div>
+{% endblock %}

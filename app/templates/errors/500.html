@@ -1,0 +1,12 @@
+{# 网站500错误页面 #}
+{% extends 'base.html' %}
+
+{% block title %}500{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center display-1">500</h1>
+    <hr>
+    <p class="text-center lead">服务器出了个错，我们正在紧张地撰写题解··· <a href="{{ url_for('main.index') }}">回到首页</a></p>
+</div>
+{% endblock %}

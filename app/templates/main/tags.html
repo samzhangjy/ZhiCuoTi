@@ -1,0 +1,22 @@
+{# 所有标签页面 #}
+{% extends 'base.html' %}
+
+{% block title %}我的标签{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>我的标签</h1>
+    <hr>
+    {% for tag in tags %}
+    <div class="position-relative">
+        <a href="{{ url_for('main.tag', id=tag.id) }}" class="stretched-link">
+            <h5>{{ tag.name }}</h5>
+        </a>
+        <p class="text-muted">
+            共{{ tag.problems.all() | length }}道错题
+        </p>
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

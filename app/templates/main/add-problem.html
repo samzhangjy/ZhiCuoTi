@@ -1,0 +1,91 @@
+{# 添加错题页面 #}
+{% extends 'base.html' %}
+{% from '_macros.html' import generateTextImageForm %}
+
+{% block title %}添加错题{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>添加错题</h1>
+    <hr>
+    <form method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <div class="form-group">
+            <label for="title">标题</label>
+            <input id="title" name="title" class="form-control" aria-describedby="titleHelp" required>
+            <div class="invalid-feedback">
+                请输入标题
+            </div>
+            <small id="titleHelp" class="text-muted">
+                该标题将显示在错题列表中，建议选择直观，形象的小标题
+            </small>
+        </div>
+        {{ generateTextImageForm(name='body', text='题目') }}
+        {{ generateTextImageForm(name='original-answer', text='原始答案') }}
+        {{ generateTextImageForm(name='correct-answer', text='正确答案') }}
+        {{ generateTextImageForm(name='description', text='解析') }}
+        <div class="form-group">
+            <label for="subject">错题科目</label>
+            <select class="custom-select" id="subject" autocomplete="off" name="subject">
+                {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+                请选择科目
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tags">知识点</label>
+            <input class="form-control" name="tags" id="tags" autocomplete="off" required>
+            <div class="invalid-feedback">
+                请输入知识点
+            </div>
+            <small id="tagsHelp" class="text-muted">
+                若有两个或以上知识点请用中文逗号“，”隔开（不包括双引号）
+            </small>
+        </div>
+        <div class="form-group">
+            <div class="input-group date" id="datetimePicker" data-target-input="nearest">
+                <input type="text" id="inputDate" class="form-control datetimepicker-input" name="date" data-target="#datetimePicker" autocomplete="off" required>
+                <div class="input-group-append" data-target="#datetimePicker" data-toggle="datetimepicker">
+                    <div class="input-group-text rounded-right"><i class="fa fa-calendar"></i></div>
+                </div>
+                <div class="invalid-feedback">
+                    请输入日期
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">添加错题</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // 表单验证
+    (function () {
+        window.addEventListener('load', function () {
+            // 获取所有页面上需要验证的表单
+            var forms = document.getElementsByClassName('needs-validation');
+            // 循环遍历并防止它们自动提交
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimePicker').datetimepicker({
+            locale: 'zh-CN',
+            format: 'L'
+        });
+    });
+</script>
+{% endblock %}

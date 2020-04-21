@@ -1,0 +1,121 @@
+{# 注册页面 #}
+{% extends 'base.html' %}
+
+{% block title %}注册{% endblock %}
+
+{% block content %}
+<div class="container text-center p-5 bg-light rounded" style="width: 30%;">
+    <h1 class="font-weight-light">注册</h1>
+    <hr>
+    <form method="post" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <input class="form-control" type="text" name="name" id="name" aria-describedby="nameHelp" required>
+            <div class="invalid-feedback" id="nameFeedback">
+                请输入姓名
+            </div>
+            <small id="nameHelp" class="form-text text-muted">
+                此名称用来在班级内显示，长度在5个字符以内
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input class="form-control" type="password" name="password" id="password" aria-describedby="passwordHelp" required>
+            <div class="invalid-feedback" id="passwordFeedback">
+                请输入密码
+            </div>
+            <small id="passwordHelp" class="form-text text-muted">
+                密码长度必须是8个字符以上
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="passwordConfirm">确认密码</label>
+            <input class="form-control" type="password" name="passwordConfirm" id="passwordConfirm" aria-describedby="passwordConfirmHelp" required>
+            <div class="invalid-feedback" id="passwordConfirmFeedback">
+                请输入确认密码
+            </div>
+            <small id="passwordConfirmHelp" class="form-text text-muted">
+                确认密码应与密码相同
+            </small>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">注册</button>
+    </form>
+    <br>
+    <p>教师注册？<a href="{{ url_for('auth.teacher_register') }}">点击这里</a></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // 表单验证
+    (function () {
+        window.addEventListener('load', function () {
+            // 获取所有页面上需要验证的表单
+            var forms = document.getElementsByClassName('needs-validation');
+            // 循环遍历并防止它们自动提交
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        for (var i = 0; i < form.getElementsByTagName('input')
+                            .length; i++) {
+                            if (form.getElementsByTagName('input')[i].value != '') {
+                                form.getElementsByTagName('input')[i].classList.remove(
+                                    'is-invalid');
+                                form.getElementsByTagName('input')[i].classList.add(
+                                    'is-valid');
+                            }
+                        }
+                        for (var i = 0; i < form.getElementsByTagName('input')
+                            .length; i++) {
+                            if (form.getElementsByTagName('input')[i].value == '') {
+                                form.getElementsByTagName('input')[i].classList.remove(
+                                    'is-valid');
+                                form.getElementsByTagName('input')[i].classList.add(
+                                    'is-invalid');
+                            }
+                        }
+                    } else if ($('#name').val().length >= 5) {
+                        document.getElementById('password').classList.remove('is-invalid');
+                        document.getElementById('password').classList.add('is-valid');
+                        document.getElementById('passwordConfirm').classList.add(
+                        'is-valid');
+                        document.getElementById('passwordConfirm').classList.remove(
+                            'is-invalid');
+                        document.getElementById('name').classList.remove('is-valid');
+                        document.getElementById('name').classList.add('is-invalid');
+                        $('#nameFeedback').html('名称长度必须小于5个字符');
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else if ($('#passwordConfirm').val() != $('#password').val()) {
+                        document.getElementById('password').classList.remove('is-invalid');
+                        document.getElementById('password').classList.add('is-valid');
+                        document.getElementById('passwordConfirm').classList.remove(
+                            'is-valid');
+                        document.getElementById('passwordConfirm').classList.add(
+                            'is-invalid');
+                        document.getElementById('name').classList.remove('is-invalid');
+                        document.getElementById('name').classList.add('is-valid');
+                        $('#passwordConfirmFeedback').html('密码不一致');
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else if ($('#password').val().length < 8) {
+                        document.getElementById('password').classList.remove('is-valid');
+                        document.getElementById('password').classList.add('is-invalid');
+                        document.getElementById('passwordConfirm').classList.remove(
+                            'is-invalid');
+                        document.getElementById('passwordConfirm').classList.add(
+                        'is-valid');
+                        document.getElementById('name').classList.remove('is-invalid');
+                        document.getElementById('name').classList.add('is-valid');
+                        $('#passwordFeedback').html('密码长度必须大于等于8位');
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+{% endblock %}

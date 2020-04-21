@@ -1,0 +1,16 @@
+{# 查看班级内指定学生错题的页面 #}
+{% extends 'base.html' %}
+
+{% block title %}查看学生错题{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>查看学生“{{ user.name }}”的{{ current_user.subject.name }}错题 <a href="{{ url_for('main.view_student_tags', name=class_.name, id=user.id) }}" style="font-size: 16px;">查看学生的标签</a></h1>
+    <hr>
+    {% if problems %}
+    {% include '_teacher-problems.html' %}
+    {% else %}
+    <p>TA还没有错题</p>
+    {% endif %}
+</div>
+{% endblock %}
