@@ -6,11 +6,17 @@
 
 在线演示地址：[zhicuoti.herokuapp.com](https://zhicuoti.herokuapp.com)。
 
+### 在线演示系统内置账号（非本地）
+
+在线演示共有3个账号，用户名分别是“张嘉源”（学生账号），“语文老师”（老师账号），和“数学老师”（老师账号）。密码均为12345678，建议使用数学老师账号查看老师账号功能。
+
 注：由于服务器原因，在线演示地址暂不支持图片上传功能，如需体验完整功能请在本地部署，敬请谅解！
 
 ## 部署
 
-要部署智错题，首先要安装[Python3.x](https://www.python.org/downloads/)，Python包管理器[pip](https://pip.pypa.io/en/stable/installing/)（若是从python.org安装的Python，一般会自带），和[MySQL](https://dev.mysql.com/downloads/mysql/8.0.html)。有了这些依赖后，就可以执行下面这些步骤了。注1：下列命令请都在终端内执行，并提前切换到源代码目录下。
+要部署智错题，首先要安装[Python3.x](https://www.python.org/downloads/)，Python包管理器[pip](https://pip.pypa.io/en/stable/installing/)（若是从python.org安装的Python，一般会自带），和[MySQL](https://dev.mysql.com/downloads/mysql/8.0.html)。有了这些依赖后，就可以执行下面这些步骤了。
+
+注1：下列命令请都在终端内执行，并提前切换到源代码目录下。
 注2：本程序已在Linux和macOS操作系统上进行测试，不建议使用Windows系统部署，但会给出相应的解决方案。
 
 1. 创建虚拟环境：
