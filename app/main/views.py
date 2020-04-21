@@ -29,7 +29,7 @@ def index():
 def problems():
     """查看当前用户的所有错题"""
     # 获取所有错题
-    all_problems = current_user.problems.all()
+    all_problems = current_user.problems.order_by(Problem.timestamp.desc()).all()
     return render_template('main/problems.html', problems=all_problems)
 
 
@@ -168,7 +168,7 @@ def tag(id):
     # 确认标签是否为空
     if tag is None:
         abort(404)
-    return render_template('main/tag.html', tag=tag, problems=tag.problems.all())
+    return render_template('main/tag.html', tag=tag, problems=tag.problems.order_by(Problem.timestamp.desc()).all())
 
 
 @main.route('/statistics/')
@@ -327,7 +327,7 @@ def view_student_problems(name, id):
     if current_user not in class_.users.all():
         abort(403)
     user = User.query.get_or_404(id)
-    problems = user.problems.filter_by(subject=current_user.subject).all()
+    problems = user.problems.filter_by(subject=current_user.subject).order_by(Problem.timestamp.desc()).all()
     return render_template('main/view-student-problems.html', problems=problems, user=user, class_=class_)
 
 
@@ -373,7 +373,7 @@ def view_student_tag(name, id, tag):
         abort(403)
     user = User.query.get_or_404(id)
     tag = user.tags.filter_by(id=tag).first()
-    return render_template('main/view-student-tag.html', user=user, tag=tag, class_=class_, problems=tag.problems.all())
+    return render_template('main/view-student-tag.html', user=user, tag=tag, class_=class_, problems=tag.problems.order_by(Problem.timestamp.desc()).all())
 
 
 @main.route('/class/<name>/student/<id>/statistics/')
